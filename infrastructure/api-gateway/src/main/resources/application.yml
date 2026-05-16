@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: api-gateway
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:9090/realms/sanosysalvos
+
+  cloud:
+    gateway:
+      routes:
+        - id: bff-route
+          uri: lb://bff
+          predicates:
+            - Path=/bff/**
+
+        - id: mascotas-route
+          uri: lb://msvc-mascotas
+          predicates:
+            - Path=/api/mascotas/**
+
+        - id: usuarios-route
+          uri: lb://msvc-usuarios
+          predicates:
+            - Path=/api/usuarios/**
+
+        - id: reportes-route
+          uri: lb://msvc-reportes
+          predicates:
+            - Path=/api/reportes/**
+
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowed-origins: "http://localhost:5173"
+            allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+            allowed-headers: "*"
+            allow-credentials: true
+
+server:
+  port: 8080
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

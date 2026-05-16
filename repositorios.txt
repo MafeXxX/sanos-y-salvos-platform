@@ -1,0 +1,40 @@
+# Repositorios — Sanos y Salvos
+# DSY1106 Desarrollo Fullstack III — Evaluación Parcial N°2
+
+Repositorio Principal (Monorepo):
+  URL: https://github.com/MafeXxX/sanos-y-salvos-platform
+  Descripción: Repositorio único con todos los componentes del proyecto
+
+Componentes incluidos en el repositorio principal:
+
+  Frontend:
+    Ruta: /frontend
+    Descripción: Aplicación React 18 + Vite — autenticación con Keycloak JS
+
+  BFF (Backend For Frontend):
+    Ruta: /infrastructure/bff
+    Descripción: Orquestador de microservicios — patrón Facade
+
+  Microservicio Mascotas:
+    Ruta: /businessdomain/msvc-mascotas
+    Descripción: Gestión de mascotas — patrón Builder — DB: mascotasdb
+
+  Microservicio Reportes:
+    Ruta: /businessdomain/msvc-reportes
+    Descripción: Gestión de reportes médicos — patrón Facade — DB: reportesdb
+
+  Microservicio Usuarios:
+    Ruta: /businessdomain/msvc-usuarios
+    Descripción: Gestión de usuarios — patrón Adapter — DB: usuariosdb
+
+  Infraestructura:
+    Ruta: /infrastructure
+    Descripción: API Gateway, Eureka Server, Config Server, Admin Server
+
+  Arquetipos Maven:
+    Ruta: /arquetipos
+    Descripción: Arquetipos base para microservicio y BFF
+
+  Documentación:
+    Ruta: /docs
+    Descripción: Análisis de patrones y plan de branching en PDF

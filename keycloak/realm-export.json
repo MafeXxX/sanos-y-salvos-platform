@@ -1,0 +1,55 @@
+{
+  "realm": "sanosysalvos",
+  "enabled": true,
+  "sslRequired": "none",
+  "registrationAllowed": false,
+  "clients": [
+    {
+      "clientId": "sanos-y-salvos-client",
+      "enabled": true,
+      "publicClient": true,
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true,
+      "redirectUris": [
+        "http://localhost:5173/*",
+        "http://localhost:8080/*"
+      ],
+      "webOrigins": [
+        "http://localhost:5173",
+        "http://localhost:8080"
+      ],
+      "attributes": {
+        "post.logout.redirect.uris": "http://localhost:5173/*"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "usuario-test",
+      "enabled": true,
+      "email": "test@sanosysalvos.cl",
+      "firstName": "Usuario",
+      "lastName": "Test",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin123",
+          "temporary": false
+        }
+      ],
+      "realmRoles": ["default-roles-sanosysalvos"]
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "veterinario",
+        "description": "Rol para veterinarios"
+      },
+      {
+        "name": "admin",
+        "description": "Rol administrador"
+      }
+    ]
+  }
+}
