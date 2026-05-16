@@ -1,11 +1,34 @@
-# Microservicio Reportes
+# msvc-reportes
 
-Spring Boot — Puerto 8082
+Microservicio de gestión de reportes de mascotas perdidas/halladas. Puerto: **8083**
 
-## Ejecución
+## Patrón implementado
+**Facade** — `MascotaServiceFacade` encapsula la comunicación HTTP con msvc-mascotas.
+
+## Requisitos
+- Java 17, Maven 3.8+
+- Eureka Server en `http://localhost:8761`
+- msvc-mascotas corriendo en `http://localhost:8081`
+
+## Ejecutar
 ```bash
-mvn spring-boot:run
+cd businessdomain/msvc-reportes
+./mvnw spring-boot:run
 ```
 
-## Patrones
-- Facade: MascotaServiceFacade
+## Endpoints
+| Método | URL | Descripción |
+|--------|-----|-------------|
+| GET | /api/reportes | Listar reportes activos |
+| GET | /api/reportes/{id} | Detalle |
+| POST | /api/reportes | Crear reporte (valida mascota via Facade) |
+| PUT | /api/reportes/{id}/estado?estado=FOUND | Cambiar estado |
+| GET | /api/reportes/mascota/{id} | Reportes por mascota |
+
+## Estados
+`ACTIVE` → `FOUND` → `CLOSED`
+
+## Tests
+```bash
+./mvnw test
+```
