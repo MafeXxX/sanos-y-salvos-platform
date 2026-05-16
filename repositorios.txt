@@ -1,0 +1,30 @@
+# Repositorios — Sanos y Salvos
+# Completar con los URLs reales luego de subir a GitHub
+
+Repositorio Principal:
+  URL: https://github.com/<usuario>/sanos-y-salvos-platform
+  Descripción: Monorepo raíz con la estructura completa del proyecto
+
+Frontend:
+  URL: https://github.com/<usuario>/sanos-y-salvos-frontend
+  Descripción: Componente React + Vite empaquetado como NPM
+
+BFF:
+  URL: https://github.com/<usuario>/sanos-y-salvos-bff
+  Descripción: Backend For Frontend — orquesta los microservicios
+
+Microservicio Mascotas:
+  URL: https://github.com/<usuario>/sanos-y-salvos-msvc-mascotas
+  Descripción: CRUD mascotas — patrón Builder
+
+Microservicio Reportes:
+  URL: https://github.com/<usuario>/sanos-y-salvos-msvc-reportes
+  Descripción: Gestión de reportes — patrón Facade
+
+Microservicio Usuarios:
+  URL: https://github.com/<usuario>/sanos-y-salvos-msvc-usuarios
+  Descripción: Gestión de usuarios — patrón Adapter
+
+Infraestructura:
+  URL: https://github.com/<usuario>/sanos-y-salvos-infrastructure
+  Descripción: API Gateway, Eureka, Config Server, Admin Server, Keycloak
