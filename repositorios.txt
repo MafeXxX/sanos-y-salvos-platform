@@ -1,30 +1,40 @@
 # Repositorios — Sanos y Salvos
-# Completar con los URLs reales luego de subir a GitHub
+# DSY1106 Desarrollo Fullstack III — Evaluación Parcial N°2
 
-Repositorio Principal:
-  URL: https://github.com/<usuario>/sanos-y-salvos-platform
-  Descripción: Monorepo raíz con la estructura completa del proyecto
+Repositorio Principal (Monorepo):
+  URL: https://github.com/MafeXxX/sanos-y-salvos-platform
+  Descripción: Repositorio único con todos los componentes del proyecto
 
-Frontend:
-  URL: https://github.com/<usuario>/sanos-y-salvos-frontend
-  Descripción: Componente React + Vite empaquetado como NPM
+Componentes incluidos en el repositorio principal:
 
-BFF:
-  URL: https://github.com/<usuario>/sanos-y-salvos-bff
-  Descripción: Backend For Frontend — orquesta los microservicios
+  Frontend:
+    Ruta: /frontend
+    Descripción: Aplicación React 18 + Vite — autenticación con Keycloak JS
 
-Microservicio Mascotas:
-  URL: https://github.com/<usuario>/sanos-y-salvos-msvc-mascotas
-  Descripción: CRUD mascotas — patrón Builder
+  BFF (Backend For Frontend):
+    Ruta: /infrastructure/bff
+    Descripción: Orquestador de microservicios — patrón Facade
 
-Microservicio Reportes:
-  URL: https://github.com/<usuario>/sanos-y-salvos-msvc-reportes
-  Descripción: Gestión de reportes — patrón Facade
+  Microservicio Mascotas:
+    Ruta: /businessdomain/msvc-mascotas
+    Descripción: Gestión de mascotas — patrón Builder — DB: mascotasdb
 
-Microservicio Usuarios:
-  URL: https://github.com/<usuario>/sanos-y-salvos-msvc-usuarios
-  Descripción: Gestión de usuarios — patrón Adapter
+  Microservicio Reportes:
+    Ruta: /businessdomain/msvc-reportes
+    Descripción: Gestión de reportes médicos — patrón Facade — DB: reportesdb
 
-Infraestructura:
-  URL: https://github.com/<usuario>/sanos-y-salvos-infrastructure
-  Descripción: API Gateway, Eureka, Config Server, Admin Server, Keycloak
+  Microservicio Usuarios:
+    Ruta: /businessdomain/msvc-usuarios
+    Descripción: Gestión de usuarios — patrón Adapter — DB: usuariosdb
+
+  Infraestructura:
+    Ruta: /infrastructure
+    Descripción: API Gateway, Eureka Server, Config Server, Admin Server
+
+  Arquetipos Maven:
+    Ruta: /arquetipos
+    Descripción: Arquetipos base para microservicio y BFF
+
+  Documentación:
+    Ruta: /docs
+    Descripción: Análisis de patrones y plan de branching en PDF
