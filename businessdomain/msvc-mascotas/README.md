@@ -1,16 +1,30 @@
-# Microservicio Mascotas
+# msvc-mascotas
 
-Spring Boot — Puerto 8081
+Microservicio de gestión de mascotas. Puerto: **8081**
 
-## Ejecución
+## Patrón implementado
+**Builder** — `MascotaBuilder` valida nombre, especie y usuarioId antes de persistir.
+
+## Requisitos
+- Java 17, Maven 3.8+
+- Eureka Server corriendo en `http://localhost:8761`
+
+## Ejecutar
 ```bash
-mvn spring-boot:run
+cd businessdomain/msvc-mascotas
+./mvnw spring-boot:run
 ```
 
-## Pruebas
-```bash
-mvn test
-```
+## Endpoints
+| Método | URL | Descripción |
+|--------|-----|-------------|
+| GET | /api/mascotas | Listar todas |
+| GET | /api/mascotas/{id} | Detalle |
+| POST | /api/mascotas | Registrar (usa Builder) |
+| PUT | /api/mascotas/{id} | Actualizar |
+| GET | /api/mascotas/usuario/{id} | Mascotas por usuario |
 
-## Patrones
-- Builder: construcción de objetos Mascota
+## Tests
+```bash
+./mvnw test
+```
