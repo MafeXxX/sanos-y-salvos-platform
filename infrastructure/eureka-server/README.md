@@ -1,8 +1,12 @@
-# Eureka Server
+# eureka-server
 
-Puerto 8761. Service Discovery.
+Registro y descubrimiento de servicios. Puerto: **8761**
 
-## Ejecución
+## Ejecutar primero — todos los demás servicios dependen de él.
+
 ```bash
-mvn spring-boot:run
+cd infrastructure/eureka-server
+./mvnw spring-boot:run
 ```
+
+Dashboard: http://localhost:8761
