@@ -7,7 +7,7 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/bff': 'http://localhost:8090',
-      '/api': 'http://localhost:8090'
+      '/api': 'http://localhost:8080'
     }
   }
 })

@@ -7,7 +7,9 @@ Microservicio de gestión de mascotas. Puerto: **8081**
 
 ## Requisitos
 - Java 17, Maven 3.8+
+- Docker Desktop (MySQL y Keycloak via `docker compose up -d`)
 - Eureka Server corriendo en `http://localhost:8761`
+- MySQL corriendo en `localhost:3306` — base de datos: `mascotasdb`
 
 ## Ejecutar
 ```bash

@@ -1,13 +1,15 @@
 # msvc-usuarios
 
-Microservicio de gestión de usuarios. Puerto: **8082**
+Microservicio de gestión de usuarios. Puerto: **8083**
 
 ## Patrón implementado
 **Adapter** — `MascotaClientAdapter` adapta las respuestas de msvc-mascotas al formato esperado por usuarios.
 
 ## Requisitos
 - Java 17, Maven 3.8+
+- Docker Desktop (MySQL y Keycloak via `docker compose up -d`)
 - Eureka Server corriendo en `http://localhost:8761`
+- MySQL corriendo en `localhost:3306` — base de datos: `usuariosdb`
 
 ## Ejecutar
 ```bash

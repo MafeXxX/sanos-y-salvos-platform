@@ -6,7 +6,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8180/realms/sanos-y-salvos
+          issuer-uri: http://localhost:9090/realms/sanosysalvos
 
   cloud:
     gateway:
@@ -40,7 +40,7 @@ spring:
             allow-credentials: true
 
 server:
-  port: 8090
+  port: 8080
 
 eureka:
   client:

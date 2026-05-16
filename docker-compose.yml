@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
 
+  # ── Keycloak ────────────────────────────────────────────────────────────────
   keycloak:
     image: quay.io/keycloak/keycloak:24.0.0
     container_name: sanosysalvos-keycloak
@@ -16,6 +17,30 @@ services:
     networks:
       - sanosysalvos-net
 
+  # ── MySQL ────────────────────────────────────────────────────────────────────
+  mysql:
+    image: mysql:8.0
+    container_name: sanosysalvos-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_USER: sanosysalvos
+      MYSQL_PASSWORD: sanosysalvos123
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - sanosysalvos-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
 networks:
   sanosysalvos-net:
     driver: bridge
+
+volumes:
+  mysql_data:

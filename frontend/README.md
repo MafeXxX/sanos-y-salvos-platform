@@ -4,7 +4,10 @@ Aplicación React con Vite. Puerto: **5173**
 
 ## Requisitos
 - Node.js 18+, NPM
-- API Gateway corriendo en `http://localhost:8090`
+- API Gateway corriendo en `http://localhost:8080`
+- Keycloak corriendo en `http://localhost:9090` (via `docker compose up -d`)
+  - Realm: `sanosysalvos`
+  - Client ID: `sanos-y-salvos-client`
 
 ## Instalar y ejecutar
 ```bash
