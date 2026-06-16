@@ -1,68 +1,55 @@
-package cl.duoc.sanosysalvos.mascotas.service;
+package cl.duoc.sanosysalvos.mascotas;
 
+import cl.duoc.sanosysalvos.mascotas.builder.MascotaBuilder;
 import cl.duoc.sanosysalvos.mascotas.model.Mascota;
-import cl.duoc.sanosysalvos.mascotas.repository.MascotaRepository;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 
-@ExtendWith(MockitoExtension.class)
-public class MascotaServiceUnitTest {
+class MascotaBuilderTest {
 
-    @Mock
-    private MascotaRepository mascotaRepository;
+    @Test
+    void buildConDatosValidos() {
+        Mascota mascota = new MascotaBuilder()
+                .nombre("Firulais")
+                .especie("Perro")
+                .raza("Labrador")
+                .usuarioId(1L)
+                .build();
 
-    @InjectMocks
-    private MascotaService mascotaService;
-
-    private Mascota mascotaPrueba;
-
-    @BeforeEach
-    void setUp() {
-        mascotaPrueba = new Mascota();
-        mascotaPrueba.setNombre("Firulais");
-        mascotaPrueba.setEspecie("Perro");
+        assertNotNull(mascota);
+        assertEquals("Firulais", mascota.getNombre());
+        assertEquals("Perro", mascota.getEspecie());
+        assertFalse(mascota.isTieneReporteActivo());
     }
 
     @Test
-    @DisplayName("Debería guardar una mascota correctamente")
-    void deberiaGuardarMascota() {
-        Mascota mascotaGuardada = new Mascota();
-        mascotaGuardada.setId(1L);
-        mascotaGuardada.setNombre("Firulais");
-        mascotaGuardada.setEspecie("Perro");
-
-        Mockito.when(mascotaRepository.save(any(Mascota.class))).thenReturn(mascotaGuardada);
-
-        Mascota resultado = mascotaService.guardar(mascotaPrueba);
-
-        assertNotNull(resultado);
-        assertEquals(1L, resultado.getId());
-        assertEquals("Firulais", resultado.getNombre());
-        Mockito.verify(mascotaRepository, Mockito.times(1)).save(any(Mascota.class));
+    void buildSinNombreLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new MascotaBuilder()
+                        .especie("Perro")
+                        .usuarioId(1L)
+                        .build()
+        );
     }
 
     @Test
-    @DisplayName("Debería retornar la lista de todas las mascotas")
-    void deberiaListarTodasLasMascotas() {
-        Mockito.when(mascotaRepository.findAll()).thenReturn(Arrays.asList(mascotaPrueba));
+    void buildSinEspecieLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new MascotaBuilder()
+                        .nombre("Firulais")
+                        .usuarioId(1L)
+                        .build()
+        );
+    }
 
-        List<Mascota> resultado = mascotaService.listarTodas();
-
-        assertFalse(resultado.isEmpty());
-        assertEquals(1, resultado.size());
-        assertEquals("Firulais", resultado.get(0).getNombre());
+    @Test
+    void buildSinUsuarioIdLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new MascotaBuilder()
+                        .nombre("Firulais")
+                        .especie("Perro")
+                        .build()
+        );
     }
 }
