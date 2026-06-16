@@ -33,21 +33,22 @@ public class MascotaServiceUnitTest {
         mascotaPrueba = new Mascota();
         mascotaPrueba.setNombre("Firulais");
         mascotaPrueba.setEspecie("Perro");
+        mascotaPrueba.setUsuarioId(1L); // Se añade el ID de usuario para el Builder
     }
 
     @Test
-    @DisplayName("Debería guardar una mascota correctamente")
+    @DisplayName("Debería registrar una mascota correctamente")
     void deberiaGuardarMascota() {
         Mascota mascotaGuardada = new Mascota();
         mascotaGuardada.setId(1L);
         mascotaGuardada.setNombre("Firulais");
         mascotaGuardada.setEspecie("Perro");
+        mascotaGuardada.setUsuarioId(1L);
 
-        // Usamos el repositorio simulado
         Mockito.when(mascotaRepository.save(any(Mascota.class))).thenReturn(mascotaGuardada);
 
-        // Llamamos al método real de tu servicio: crearMascota
-        Mascota resultado = mascotaService.crearMascota(mascotaPrueba);
+        // ¡CORREGIDO! Llamamos al método "registrar" que es el que existe en tu MascotaService.java
+        Mascota resultado = mascotaService.registrar(mascotaPrueba);
 
         assertNotNull(resultado);
         assertEquals(1L, resultado.getId());
@@ -63,6 +64,7 @@ public class MascotaServiceUnitTest {
         List<Mascota> resultado = mascotaService.listarTodas();
 
         assertFalse(resultado.isEmpty());
+        // ¡CORREGIDO! Se añade "resultado." antes de size()
         assertEquals(1, resultado.size());
         assertEquals("Firulais", resultado.get(0).getNombre());
     }
