@@ -54,4 +54,9 @@ public class MascotaService {
         mascota.setTieneReporteActivo(tieneReporte);
         mascotaRepository.save(mascota);
     }
+
+    public void eliminar(Long id) {
+        Mascota mascota = buscarPorId(id);
+        mascotaRepository.delete(mascota);
+    }
 }

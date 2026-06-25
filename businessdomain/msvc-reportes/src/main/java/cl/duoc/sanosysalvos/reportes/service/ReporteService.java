@@ -58,4 +58,9 @@ public class ReporteService {
     public List<Reporte> buscarPorMascota(Long mascotaId) {
         return reporteRepository.findByMascotaId(mascotaId);
     }
+
+    public void eliminar(Long id) {
+        Reporte reporte = buscarPorId(id);
+        reporteRepository.delete(reporte);
+    }
 }

@@ -2,6 +2,7 @@ package cl.duoc.sanosysalvos.mascotas.controller;
 
 import cl.duoc.sanosysalvos.mascotas.model.Mascota;
 import cl.duoc.sanosysalvos.mascotas.service.MascotaService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,13 +28,19 @@ public class MascotaController {
     }
 
     @PostMapping
-    public ResponseEntity<Mascota> registrar(@RequestBody Mascota mascota) {
+    public ResponseEntity<Mascota> registrar(@Valid @RequestBody Mascota mascota) {
         return ResponseEntity.status(HttpStatus.CREATED).body(mascotaService.registrar(mascota));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Mascota> actualizar(@PathVariable Long id, @RequestBody Mascota mascota) {
+    public ResponseEntity<Mascota> actualizar(@PathVariable Long id, @Valid @RequestBody Mascota mascota) {
         return ResponseEntity.ok(mascotaService.actualizar(id, mascota));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        mascotaService.eliminar(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/usuario/{usuarioId}")
@@ -45,15 +52,5 @@ public class MascotaController {
     public ResponseEntity<Void> actualizarReporteActivo(@PathVariable Long id, @RequestParam boolean activo) {
         mascotaService.actualizarReporteActivo(id, activo);
         return ResponseEntity.ok().build();
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<String> handleNotFound(RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleBadRequest(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

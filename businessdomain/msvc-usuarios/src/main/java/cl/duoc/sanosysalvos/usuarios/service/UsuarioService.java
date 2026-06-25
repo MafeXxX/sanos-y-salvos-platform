@@ -44,4 +44,9 @@ public class UsuarioService {
         buscarPorId(usuarioId);
         return mascotaClientAdapter.getMascotasByUsuario(usuarioId);
     }
+
+    public void eliminar(Long id) {
+        Usuario usuario = buscarPorId(id);
+        usuarioRepository.delete(usuario);
+    }
 }
