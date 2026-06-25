@@ -14,7 +14,7 @@
     <artifactId>bff</artifactId>
     <packaging>jar</packaging>
     <name>bff</name>
-    <description>Backend for Frontend — orquesta microservicios, puerto 8080</description>
+    <description>Backend for Frontend — orquesta microservicios, puerto 8090</description>
 
     <dependencies>
         <!-- Web -->

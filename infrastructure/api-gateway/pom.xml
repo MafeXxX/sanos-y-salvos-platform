@@ -14,7 +14,7 @@
     <artifactId>api-gateway</artifactId>
     <packaging>jar</packaging>
     <name>api-gateway</name>
-    <description>Puerta de entrada única al sistema — puerto 8090</description>
+    <description>Puerta de entrada única al sistema — puerto 8080</description>
 
     <dependencies>
         <!-- Spring Cloud Gateway (WebFlux-based) -->

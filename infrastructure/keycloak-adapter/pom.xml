@@ -14,7 +14,7 @@
     <artifactId>keycloak-adapter</artifactId>
     <packaging>jar</packaging>
     <name>keycloak-adapter</name>
-    <description>Integración con Keycloak para autenticación/autorización — puerto 8085</description>
+    <description>Integración con Keycloak para autenticación/autorización — puerto 8086</description>
 
     <dependencies>
         <!-- Web -->

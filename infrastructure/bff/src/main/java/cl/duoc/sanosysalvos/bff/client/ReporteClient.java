@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.time.LocalDate;
 import java.util.List;
 
-@FeignClient(name = "msvc-reportes", url = "${msvc.reportes.url:http://localhost:8083}")
+@FeignClient(name = "msvc-reportes", url = "${msvc.reportes.url:http://localhost:8082}")
 public interface ReporteClient {
 
     @GetMapping("/api/reportes")
