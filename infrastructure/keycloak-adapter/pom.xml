@@ -14,15 +14,9 @@
     <artifactId>keycloak-adapter</artifactId>
     <packaging>jar</packaging>
     <name>keycloak-adapter</name>
-    <description>Integración con Keycloak para autenticación/autorización — puerto 8086</description>
+    <description>Librería compartida de seguridad — configuración centralizada JWT/Keycloak</description>
 
     <dependencies>
-        <!-- Web -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
         <!-- Spring Security -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

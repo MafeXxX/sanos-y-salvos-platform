@@ -15,21 +15,41 @@ spring:
           uri: lb://bff
           predicates:
             - Path=/bff/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: gateway-bff
+                fallbackUri: forward:/fallback/bff
 
         - id: mascotas-route
           uri: lb://msvc-mascotas
           predicates:
             - Path=/api/mascotas/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: gateway-mascotas
+                fallbackUri: forward:/fallback/mascotas
 
         - id: usuarios-route
           uri: lb://msvc-usuarios
           predicates:
             - Path=/api/usuarios/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: gateway-usuarios
+                fallbackUri: forward:/fallback/usuarios
 
         - id: reportes-route
           uri: lb://msvc-reportes
           predicates:
             - Path=/api/reportes/**
+          filters:
+            - name: CircuitBreaker
+              args:
+                name: gateway-reportes
+                fallbackUri: forward:/fallback/reportes
 
       globalcors:
         cors-configurations:
@@ -52,3 +72,29 @@ management:
     web:
       exposure:
         include: "*"
+
+# ── Resilience4j Circuit Breaker (Gateway) ───────────────────────────────────
+resilience4j:
+  circuitbreaker:
+    instances:
+      gateway-bff:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+      gateway-mascotas:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+      gateway-usuarios:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+      gateway-reportes:
+        sliding-window-size: 10
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s

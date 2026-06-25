@@ -52,6 +52,13 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
+
+        <!-- Keycloak Adapter — librería compartida de seguridad JWT -->
+        <dependency>
+            <groupId>cl.duoc.sanosysalvos</groupId>
+            <artifactId>keycloak-adapter</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
