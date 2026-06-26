@@ -6,26 +6,25 @@ import ReportesPage from './pages/ReportesPage'
 function App({ keycloak }) {
   return (
     <div>
-      <nav style={{ padding: '1rem', background: '#2c3e50', color: 'white', display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-        <strong>Sanos y Salvos</strong>
-        <Link to="/" style={{ color: 'white' }}>Mascotas</Link>
-        <Link to="/usuarios" style={{ color: 'white' }}>Usuarios</Link>
-        <Link to="/reportes" style={{ color: 'white' }}>Reportes</Link>
-        <span style={{ marginLeft: 'auto', fontSize: '0.9rem' }}>
+      <nav className="navbar">
+        <span className="navbar-brand">🐾 Sanos y Salvos</span>
+        <Link to="/">Mascotas</Link>
+        <Link to="/usuarios">Usuarios</Link>
+        <Link to="/reportes">Reportes</Link>
+        <span className="navbar-user">
           {keycloak.tokenParsed?.preferred_username}
-          {' '}
-          <button onClick={() => keycloak.logout()} style={{ marginLeft: '0.5rem' }}>
+          <button className="btn btn-outline btn-sm" onClick={() => keycloak.logout()}>
             Cerrar sesión
           </button>
         </span>
       </nav>
-      <main style={{ padding: '1rem' }}>
+      <div className="container">
         <Routes>
           <Route path="/" element={<MascotasPage />} />
           <Route path="/usuarios" element={<UsuariosPage />} />
           <Route path="/reportes" element={<ReportesPage />} />
         </Routes>
-      </main>
+      </div>
     </div>
   )
 }

@@ -8,6 +8,7 @@ export const mascotasApi = {
   buscar: (id) => axios.get(`${BASE}/mascotas/${id}`),
   crear: (data) => axios.post(`${BASE}/mascotas`, data),
   actualizar: (id, data) => axios.put(`${BASE}/mascotas/${id}`, data),
+  eliminar: (id) => axios.delete(`${BASE}/mascotas/${id}`),
   porUsuario: (usuarioId) => axios.get(`${BASE}/mascotas/usuario/${usuarioId}`)
 }
 
@@ -16,6 +17,7 @@ export const usuariosApi = {
   buscar: (id) => axios.get(`${BASE}/usuarios/${id}`),
   crear: (data) => axios.post(`${BASE}/usuarios`, data),
   actualizar: (id, data) => axios.put(`${BASE}/usuarios/${id}`, data),
+  eliminar: (id) => axios.delete(`${BASE}/usuarios/${id}`),
   mascotas: (id) => axios.get(`${BASE}/usuarios/${id}/mascotas`)
 }
 
@@ -24,6 +26,7 @@ export const reportesApi = {
   buscar: (id) => axios.get(`${BASE}/reportes/${id}`),
   crear: (data) => axios.post(`${BASE}/reportes`, data),
   cambiarEstado: (id, estado) => axios.put(`${BASE}/reportes/${id}/estado?estado=${estado}`),
+  eliminar: (id) => axios.delete(`${BASE}/reportes/${id}`),
   porMascota: (mascotaId) => axios.get(`${BASE}/reportes/mascota/${mascotaId}`)
 }
 

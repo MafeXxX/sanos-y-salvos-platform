@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import keycloak from './services/keycloak.js'
 import axios from 'axios'
+import './index.css'
 
 keycloak.init({ onLoad: 'login-required', checkLoginIframe: false }).then(authenticated => {
   if (!authenticated) {
@@ -11,13 +12,11 @@ keycloak.init({ onLoad: 'login-required', checkLoginIframe: false }).then(authen
     return
   }
 
-  // Adjuntar token JWT a todas las peticiones
   axios.interceptors.request.use(config => {
     config.headers.Authorization = `Bearer ${keycloak.token}`
     return config
   })
 
-  // Refrescar token automáticamente antes de que expire
   setInterval(() => {
     keycloak.updateToken(60).catch(() => keycloak.logout())
   }, 30000)
