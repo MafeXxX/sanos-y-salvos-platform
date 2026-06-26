@@ -58,4 +58,11 @@ public class ReporteService {
     public List<Reporte> buscarPorMascota(Long mascotaId) {
         return reporteRepository.findByMascotaId(mascotaId);
     }
+
+    public void eliminar(Long id) {
+    if (!reporteRepository.existsById(id)) {
+        throw new RuntimeException("Reporte no encontrado");
+    }
+    reporteRepository.deleteById(id);
+}
 }

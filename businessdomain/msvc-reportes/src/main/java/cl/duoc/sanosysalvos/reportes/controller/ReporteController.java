@@ -51,4 +51,10 @@ public class ReporteController {
     public ResponseEntity<String> handleBadRequest(IllegalArgumentException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminar(@PathVariable Long id) {
+        reporteService.eliminar(id);
+        return ResponseEntity.noContent().build();
+    }
 }

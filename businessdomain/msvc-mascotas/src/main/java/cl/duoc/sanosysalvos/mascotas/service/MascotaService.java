@@ -54,4 +54,11 @@ public class MascotaService {
         mascota.setTieneReporteActivo(tieneReporte);
         mascotaRepository.save(mascota);
     }
+    
+    public void eliminar(Long id) {
+    if (!mascotaRepository.existsById(id)) {
+        throw new RuntimeException("Mascota no encontrada con ID: " + id);
+    }
+    mascotaRepository.deleteById(id);
+}
 }
