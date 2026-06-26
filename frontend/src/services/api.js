@@ -3,6 +3,20 @@ import axios from 'axios'
 const BASE = '/api'
 const BFF = '/bff'
 
+// Retry automático cuando el Circuit Breaker devuelve 503 (servicios iniciando)
+axios.interceptors.response.use(
+  response => response,
+  async error => {
+    const config = error.config
+    if (error.response?.status === 503 && (!config._retryCount || config._retryCount < 5)) {
+      config._retryCount = (config._retryCount || 0) + 1
+      await new Promise(r => setTimeout(r, 2000))
+      return axios(config)
+    }
+    return Promise.reject(error)
+  }
+)
+
 export const mascotasApi = {
   listar: () => axios.get(`${BASE}/mascotas`),
   buscar: (id) => axios.get(`${BASE}/mascotas/${id}`),

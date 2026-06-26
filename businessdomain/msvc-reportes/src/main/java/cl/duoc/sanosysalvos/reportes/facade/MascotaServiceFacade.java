@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "msvc-mascotas", url = "${msvc.mascotas.url:http://localhost:8081}")
+@FeignClient(name = "msvc-mascotas", url = "${msvc.mascotas.url:http://localhost:8081}", configuration = FeignErrorDecoder.class)
 public interface MascotaServiceFacade {
 
     @GetMapping("/api/mascotas/{id}")

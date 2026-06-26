@@ -59,6 +59,12 @@
             <version>2.8.0</version>
         </dependency>
 
+        <!-- OpenFeign — valida usuario en msvc-usuarios -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+
         <!-- Admin Client -->
         <dependency>
             <groupId>de.codecentric</groupId>

@@ -1,6 +1,7 @@
 package cl.duoc.sanosysalvos.mascotas.service;
 
 import cl.duoc.sanosysalvos.mascotas.builder.MascotaBuilder;
+import cl.duoc.sanosysalvos.mascotas.facade.UsuarioServiceFacade;
 import cl.duoc.sanosysalvos.mascotas.model.Mascota;
 import cl.duoc.sanosysalvos.mascotas.repository.MascotaRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 public class MascotaService {
 
     private final MascotaRepository mascotaRepository;
+    private final UsuarioServiceFacade usuarioServiceFacade;
 
     public List<Mascota> listarTodas() {
         return mascotaRepository.findAll();
@@ -24,6 +26,7 @@ public class MascotaService {
     }
 
     public Mascota registrar(Mascota datos) {
+        usuarioServiceFacade.getUsuario(datos.getUsuarioId());
         Mascota mascota = new MascotaBuilder()
                 .nombre(datos.getNombre())
                 .especie(datos.getEspecie())
