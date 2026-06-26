@@ -2,13 +2,16 @@
 
 Orquesta los tres microservicios y expone datos compuestos al frontend. Puerto: **8090**
 
-## Patrón implementado
-**Facade** — `SanosYSalvosFacade` consolida llamadas a mascotas, usuarios y reportes en una sola respuesta.
+## Patrones implementados
+- **Facade** — `SanosYSalvosFacade` consolida llamadas a mascotas, usuarios y reportes en una sola respuesta.
+- **Circuit Breaker** — `@CircuitBreaker` + `@Retry` (Resilience4j) en los 3 métodos del facade, con fallbacks que degradan a listas vacías.
 
 ## Requisitos
 - Eureka Server en `http://localhost:8761`
+- Config Server en `http://localhost:8888`
 - msvc-mascotas (8081), msvc-usuarios (8083), msvc-reportes (8082) corriendo
 - Keycloak en `http://localhost:9090` — realm: `sanosysalvos`, client: `sanos-y-salvos-client`
+- Admin Server en `http://localhost:8085`
 
 ## Ejecutar
 ```bash

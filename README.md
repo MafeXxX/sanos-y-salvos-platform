@@ -29,10 +29,12 @@ Plataforma de gestión veterinaria desarrollada con arquitectura de microservici
                                │
                         ┌──────▼───────┐
                         │ API Gateway  │  :8080
+                        │ + Circuit Br.│
                         └──────┬───────┘
                                │
                         ┌──────▼───────┐
                         │     BFF      │  :8090
+                        │ + Circuit Br.│
                         └──┬───┬───┬───┘
                            │   │   │
                ┌───────────┘   │   └───────────┐
@@ -50,6 +52,11 @@ Plataforma de gestión veterinaria desarrollada con arquitectura de microservici
         ┌──────▼───────────────▼───────────────▼──────┐
         │               Eureka Server :8761            │
         └─────────────────────────────────────────────┘
+               │
+        ┌──────▼──────┐   ┌──────────────┐
+        │ Config Srv  │   │ Admin Server │
+        │    :8888    │   │    :8085     │
+        └─────────────┘   └──────────────┘
 ```
 
 ---
@@ -58,17 +65,18 @@ Plataforma de gestión veterinaria desarrollada con arquitectura de microservici
 
 | Componente | Puerto | Qué hace | Patrón |
 |---|---|---|---|
-| **msvc-mascotas** | 8081 | CRUD de mascotas; registra nombre, especie y dueño | Builder |
-| **msvc-reportes** | 8082 | Gestiona reportes de mascotas perdidas/halladas; consulta msvc-mascotas | Facade |
-| **msvc-usuarios** | 8083 | CRUD de usuarios; expone las mascotas asociadas a cada uno | Adapter |
-| **BFF** | 8090 | Orquesta los tres microservicios en respuestas compuestas para el frontend | Facade |
-| **API Gateway** | 8080 | Punto de entrada único; enruta y aplica seguridad OAuth2 | — |
+| **msvc-mascotas** | 8081 | CRUD completo de mascotas; registra nombre, especie y dueño; validación @Valid | Builder |
+| **msvc-reportes** | 8082 | CRUD de reportes de mascotas perdidas/halladas; consulta msvc-mascotas via Feign | Facade |
+| **msvc-usuarios** | 8083 | CRUD completo de usuarios; expone las mascotas asociadas a cada uno | Adapter |
+| **BFF** | 8090 | Orquesta los tres microservicios con Circuit Breaker + Retry (Resilience4j) | Facade |
+| **API Gateway** | 8080 | Punto de entrada único; enruta con Circuit Breaker, aplica seguridad OAuth2 | — |
 | **Eureka Server** | 8761 | Registro y descubrimiento de servicios | — |
-| **Config Server** | 8888 | Configuración centralizada para todos los servicios | — |
-| **Admin Server** | 8085 | Monitoreo y métricas (Spring Boot Admin) | — |
+| **Config Server** | 8888 | Configuración centralizada para BFF y microservicios | — |
+| **Admin Server** | 8085 | Monitoreo y métricas (Spring Boot Admin) — recibe clientes de todos los servicios | — |
 | **Keycloak** | 9090 | Servidor de autenticación OAuth2/OIDC (Docker) | — |
+| **Keycloak Adapter** | — | Librería compartida de seguridad JWT usada por el API Gateway | — |
 | **MySQL** | 3306 | Base de datos relacional — 3 esquemas separados (Docker) | — |
-| **Frontend** | 5173 | Interfaz React + Vite con autenticación via Keycloak | — |
+| **Frontend** | 5173 | Interfaz React + Vite con autenticación via Keycloak JS | — |
 
 ---
 
@@ -120,7 +128,18 @@ mvn spring-boot:run
 
 ---
 
-### 4. Microservicios (cada uno en su propia terminal)
+### 4. Admin Server
+
+```bash
+cd infrastructure/admin-server
+mvn spring-boot:run
+```
+
+Dashboard: http://localhost:8085
+
+---
+
+### 5. Microservicios (cada uno en su propia terminal)
 
 ```bash
 # Terminal 1 — mascotasdb
@@ -138,7 +157,7 @@ mvn spring-boot:run
 
 ---
 
-### 5. BFF
+### 6. BFF
 
 ```bash
 cd infrastructure/bff
@@ -149,7 +168,7 @@ Disponible en: http://localhost:8090
 
 ---
 
-### 6. API Gateway
+### 7. API Gateway
 
 ```bash
 cd infrastructure/api-gateway
@@ -160,7 +179,7 @@ Punto de entrada único: http://localhost:8080
 
 ---
 
-### 7. Frontend
+### 8. Frontend
 
 ```bash
 cd frontend
@@ -215,8 +234,46 @@ mvn test
 | **Builder** | msvc-mascotas | Construcción y validación fluida del objeto Mascota |
 | **Facade** | msvc-reportes, bff | Encapsula la comunicación entre servicios en una interfaz simple |
 | **Adapter** | msvc-usuarios | Adapta las respuestas de msvc-mascotas al formato esperado |
+| **Circuit Breaker** | bff, api-gateway | Resilience4j — tolerancia a fallos y degradación controlada |
+| **Retry** | bff | Reintentos automáticos ante fallos transitorios |
 
 Ver análisis completo en `docs/analisis-patrones.pdf`.
+
+---
+
+## Tolerancia a fallos
+
+El BFF y el API Gateway implementan **Circuit Breaker** con Resilience4j:
+
+| Componente | Mecanismo |
+|---|---|
+| **BFF** | `@CircuitBreaker` + `@Retry` en los 3 métodos del Facade, con fallbacks que devuelven listas vacías |
+| **API Gateway** | Filtro `CircuitBreaker` en cada ruta, con `FallbackController` que responde HTTP 503 |
+
+---
+
+## Configuración centralizada
+
+El **Config Server** (:8888) sirve configuración compartida a BFF y microservicios:
+
+```
+infrastructure/config-server/src/main/resources/config/
+  bff.properties
+  msvc-mascotas.properties
+  msvc-reportes.properties
+  msvc-usuarios.properties
+```
+
+Cada servicio tiene su propio `bootstrap.yml` que apunta a `http://localhost:8888`.
+
+---
+
+## Manejo de excepciones
+
+Cada microservicio utiliza un `@ControllerAdvice` global (`GlobalExceptionHandler`) que centraliza:
+
+- `RuntimeException` → 404 Not Found
+- `IllegalArgumentException` → 400 Bad Request
 
 ---
 

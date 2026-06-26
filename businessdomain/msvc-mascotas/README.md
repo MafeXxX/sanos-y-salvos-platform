@@ -22,9 +22,11 @@ cd businessdomain/msvc-mascotas
 |--------|-----|-------------|
 | GET | /api/mascotas | Listar todas |
 | GET | /api/mascotas/{id} | Detalle |
-| POST | /api/mascotas | Registrar (usa Builder) |
-| PUT | /api/mascotas/{id} | Actualizar |
+| POST | /api/mascotas | Registrar (usa Builder, validado con @Valid) |
+| PUT | /api/mascotas/{id} | Actualizar (validado con @Valid) |
+| DELETE | /api/mascotas/{id} | Eliminar |
 | GET | /api/mascotas/usuario/{id} | Mascotas por usuario |
+| PUT | /api/mascotas/{id}/reporte-activo | Actualizar estado de reporte |
 
 ## Tests
 ```bash

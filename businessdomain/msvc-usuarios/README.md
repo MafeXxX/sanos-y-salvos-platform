@@ -22,8 +22,9 @@ cd businessdomain/msvc-usuarios
 |--------|-----|-------------|
 | GET | /api/usuarios | Listar todos |
 | GET | /api/usuarios/{id} | Detalle |
-| POST | /api/usuarios | Registrar |
-| PUT | /api/usuarios/{id} | Actualizar |
+| POST | /api/usuarios | Registrar (validado con @Valid) |
+| PUT | /api/usuarios/{id} | Actualizar (validado con @Valid) |
+| DELETE | /api/usuarios/{id} | Eliminar |
 | GET | /api/usuarios/{id}/mascotas | Mascotas del usuario (Adapter) |
 
 ## Tests

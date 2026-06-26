@@ -25,6 +25,7 @@ cd businessdomain/msvc-reportes
 | GET | /api/reportes/{id} | Detalle |
 | POST | /api/reportes | Crear reporte (valida mascota via Facade) |
 | PUT | /api/reportes/{id}/estado?estado=FOUND | Cambiar estado |
+| DELETE | /api/reportes/{id} | Eliminar |
 | GET | /api/reportes/mascota/{id} | Reportes por mascota |
 
 ## Estados
