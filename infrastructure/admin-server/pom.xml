@@ -14,14 +14,13 @@
     <artifactId>admin-server</artifactId>
     <packaging>jar</packaging>
     <name>admin-server</name>
-    <description>Servidor de monitoreo Spring Boot Admin — puerto 9090</description>
+    <description>Servidor de monitoreo Spring Boot Admin — puerto 8085</description>
 
     <dependencies>
         <!-- Spring Boot Admin Server -->
         <dependency>
             <groupId>de.codecentric</groupId>
             <artifactId>spring-boot-admin-starter-server</artifactId>
-            <version>3.4.5</version>
         </dependency>
 
         <!-- Web (requerido por Admin) -->
