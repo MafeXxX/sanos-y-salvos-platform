@@ -1,40 +1,56 @@
 # Repositorios — Sanos y Salvos
-# DSY1106 Desarrollo Fullstack III — Evaluación Parcial N°2
+# DSY1106 Desarrollo Fullstack III — Evaluación Parcial N°3
 
 Repositorio Principal (Monorepo):
   URL: https://github.com/MafeXxX/sanos-y-salvos-platform
-  Descripción: Repositorio único con todos los componentes del proyecto
+  Descripción: Repositorio único con todos los componentes del proyecto, documentación, pruebas e infraestructura
 
 Componentes incluidos en el repositorio principal:
 
   Frontend:
     Ruta: /frontend
-    Descripción: Aplicación React 18 + Vite — autenticación con Keycloak JS
+    Descripción: Aplicación React 18 + Vite — autenticación con Keycloak JS, diseño responsive con CSS propio
 
   BFF (Backend For Frontend):
     Ruta: /infrastructure/bff
-    Descripción: Orquestador de microservicios — patrón Facade
+    Descripción: Orquestador de microservicios — patrón Facade + Circuit Breaker + Retry (Resilience4j)
+
+  API Gateway:
+    Ruta: /infrastructure/api-gateway
+    Descripción: Punto de entrada único — Spring Cloud Gateway con seguridad OAuth2/JWT y Circuit Breaker por ruta
 
   Microservicio Mascotas:
     Ruta: /businessdomain/msvc-mascotas
-    Descripción: Gestión de mascotas — patrón Builder — DB: mascotasdb
+    Descripción: CRUD de mascotas — patrón Builder — validación cruzada via Feign → msvc-usuarios — DB: mascotasdb
 
   Microservicio Reportes:
     Ruta: /businessdomain/msvc-reportes
-    Descripción: Gestión de reportes médicos — patrón Facade — DB: reportesdb
+    Descripción: CRUD de reportes de mascotas perdidas/halladas — patrón Facade (Feign → msvc-mascotas) — DB: reportesdb
 
   Microservicio Usuarios:
     Ruta: /businessdomain/msvc-usuarios
-    Descripción: Gestión de usuarios — patrón Adapter — DB: usuariosdb
+    Descripción: CRUD de usuarios — patrón Adapter (Feign → msvc-mascotas) — DB: usuariosdb
 
   Infraestructura:
     Ruta: /infrastructure
-    Descripción: API Gateway, Eureka Server, Config Server, Admin Server
+    Descripción: Eureka Server (:8761), Config Server (:8888), Admin Server (:8085), Keycloak Adapter (librería compartida JWT)
 
   Arquetipos Maven:
     Ruta: /arquetipos
-    Descripción: Arquetipos base para microservicio y BFF
+    Descripción: Arquetipos base para generar nuevos BFF y microservicios
 
   Documentación:
     Ruta: /docs
-    Descripción: Análisis de patrones y plan de branching en PDF
+    Descripción: Análisis de patrones, plan de branching, datos de demostración para Video de Uso
+
+  Docker:
+    Ruta: /docker-compose.yml
+    Descripción: Orquestación de Keycloak (:9090) y MySQL (:3306) con init.sql
+
+  Persistencia:
+    Ruta: /mysql/init.sql
+    Descripción: Script de inicialización — crea mascotasdb, reportesdb, usuariosdb
+
+  Seguridad:
+    Ruta: /keycloak/realm-export.json
+    Descripción: Configuración del realm Keycloak (sanosysalvos) con cliente y usuario de prueba
