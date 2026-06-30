@@ -1,7 +1,7 @@
 # Sanos y Salvos Platform
 
 Plataforma de gestión veterinaria desarrollada con arquitectura de microservicios.  
-**DSY1106 Desarrollo Fullstack III — Evaluación Parcial N°2**
+**DSY1106 Desarrollo Fullstack III — Evaluación Parcial N°3**
 
 ## Equipo
 
@@ -65,7 +65,7 @@ Plataforma de gestión veterinaria desarrollada con arquitectura de microservici
 
 | Componente | Puerto | Qué hace | Patrón |
 |---|---|---|---|
-| **msvc-mascotas** | 8081 | CRUD completo de mascotas; registra nombre, especie y dueño; validación @Valid | Builder |
+| **msvc-mascotas** | 8081 | CRUD completo de mascotas; validación @NotBlank + @NotNull + Feign a usuarios | Builder |
 | **msvc-reportes** | 8082 | CRUD de reportes de mascotas perdidas/halladas; consulta msvc-mascotas via Feign | Facade |
 | **msvc-usuarios** | 8083 | CRUD completo de usuarios; expone las mascotas asociadas a cada uno | Adapter |
 | **BFF** | 8090 | Orquesta los tres microservicios con Circuit Breaker + Retry (Resilience4j) | Facade |
@@ -218,12 +218,48 @@ Usuario de prueba: `usuario-test` / `admin123`
 
 ---
 
+## Documentación de API (Swagger)
+
+Cada servicio expone Swagger UI con todos los endpoints, parámetros y ejemplos:
+
+| Servicio | Swagger UI |
+|---|---|
+| msvc-mascotas | http://localhost:8081/swagger-ui.html |
+| msvc-reportes | http://localhost:8082/swagger-ui.html |
+| msvc-usuarios | http://localhost:8083/swagger-ui.html |
+| BFF | http://localhost:8090/swagger-ui.html |
+
+---
+
 ## Pruebas
 
 ```bash
-# Desde la raíz de cualquier microservicio
-mvn test
+# Ejecutar todos los tests con reporte de cobertura
+mvn verify
 ```
+
+### Cobertura con JaCoCo
+
+El proyecto usa **JaCoCo 0.8.12** para medir cobertura de código. Los reportes HTML se generan en `target/site/jacoco/` de cada módulo al ejecutar `mvn verify`.
+
+| Microservicio | Tests | Cobertura |
+|---|---|---|
+| msvc-mascotas | 24 | >88% |
+| msvc-reportes | 16 | >70% |
+| msvc-usuarios | 16 | >70% |
+
+**Tipos de pruebas implementadas:**
+
+| Tipo | Cantidad | Descripción |
+|---|---|---|
+| Unitarias (Mockito) | 30+ | Servicios, builders, excepciones |
+| Controller (@WebMvcTest) | 19 | Endpoints REST con MockMvc |
+| Integración (@SpringBootTest + H2) | 3 | Flujo controller → service → repository |
+| End-to-End (TestRestTemplate) | 3 | Flujo HTTP completo con puerto aleatorio |
+
+### Datos de demostración
+
+Ver `docs/datos-demostracion.md` para el paso a paso del Video de Uso.
 
 ---
 
@@ -270,10 +306,24 @@ Cada servicio tiene su propio `bootstrap.yml` que apunta a `http://localhost:888
 
 ## Manejo de excepciones
 
-Cada microservicio utiliza un `@ControllerAdvice` global (`GlobalExceptionHandler`) que centraliza:
+Cada microservicio utiliza un `@ControllerAdvice` global (`GlobalExceptionHandler`) que centraliza las respuestas de error en formato JSON:
 
-- `RuntimeException` → 404 Not Found
-- `IllegalArgumentException` → 400 Bad Request
+- `RuntimeException` → `404 Not Found` → `{"error": "mensaje"}`
+- `IllegalArgumentException` → `400 Bad Request` → `{"error": "mensaje"}`
+
+## Logging
+
+Cada microservicio y el BFF tienen configuración **logback-spring.xml** con:
+
+- Salida a **consola con colores** (nivel y logger resaltados)
+- Archivo **rotativo** en `logs/` (10 MB por archivo, máximo 7 días, 100 MB total)
+- `DEBUG` para el código del proyecto, `INFO` para Spring, `WARN` para Hibernate y Netflix
+
+## Validaciones
+
+- **Mascota**: `@NotBlank` en nombre y especie, `@NotNull` en usuarioId, más validación cruzada via Feign (UsuarioServiceFacade)
+- **Usuario**: `@NotBlank` en nombre y email, `@Email` en email, unicidad validada en el servicio
+- **Reporte**: ubicación obligatoria validada en el servicio, `@Valid` en el controller
 
 ---
 
