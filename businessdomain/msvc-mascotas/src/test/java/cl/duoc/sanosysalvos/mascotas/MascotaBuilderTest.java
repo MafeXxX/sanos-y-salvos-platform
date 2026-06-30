@@ -52,4 +52,46 @@ class MascotaBuilderTest {
                         .build()
         );
     }
+
+    @Test
+    void buildConNombreVacioLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new MascotaBuilder()
+                        .nombre("")
+                        .especie("Perro")
+                        .usuarioId(1L)
+                        .build()
+        );
+    }
+
+    @Test
+    void buildConEspecieVaciaLanzaExcepcion() {
+        assertThrows(IllegalArgumentException.class, () ->
+                new MascotaBuilder()
+                        .nombre("Firulais")
+                        .especie("")
+                        .usuarioId(1L)
+                        .build()
+        );
+    }
+
+    @Test
+    void buildConDatosCompletosDeberiaSetearTodosLosCampos() {
+        Mascota mascota = new MascotaBuilder()
+                .nombre("Firulais")
+                .especie("Perro")
+                .raza("Labrador")
+                .color("Negro")
+                .edad(3)
+                .usuarioId(1L)
+                .build();
+
+        assertEquals("Firulais", mascota.getNombre());
+        assertEquals("Perro", mascota.getEspecie());
+        assertEquals("Labrador", mascota.getRaza());
+        assertEquals("Negro", mascota.getColor());
+        assertEquals(3, mascota.getEdad());
+        assertEquals(1L, mascota.getUsuarioId());
+        assertFalse(mascota.isTieneReporteActivo());
+    }
 }
