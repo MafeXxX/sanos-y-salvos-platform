@@ -12,7 +12,7 @@ function MascotasPage() {
     setLoading(true)
     mascotasApi.listar()
       .then(r => setMascotas(r.data))
-      .catch(e => setError(e.message))
+      .catch(e => setError(e.response?.data?.error || e.message))
       .finally(() => setLoading(false))
   }
 
@@ -20,7 +20,7 @@ function MascotasPage() {
 
   const eliminar = (id) => {
     if (!window.confirm('¿Eliminar esta mascota?')) return
-    mascotasApi.eliminar(id).then(cargar).catch(e => setError(e.message))
+    mascotasApi.eliminar(id).then(cargar).catch(e => setError(e.response?.data?.error || e.message))
   }
 
   return (

@@ -14,7 +14,7 @@ function ReportesPage() {
     setLoading(true)
     reportesApi.listar()
       .then(r => setReportes(r.data))
-      .catch(e => setError(e.message))
+      .catch(e => setError(e.response?.data?.error || e.message))
       .finally(() => setLoading(false))
   }
 
@@ -24,16 +24,16 @@ function ReportesPage() {
     e.preventDefault()
     reportesApi.crear({ ...form, mascotaId: Number(form.mascotaId) })
       .then(() => { cargar(); setForm({ mascotaId: '', ubicacion: '', tipoReporte: 'PERDIDA', descripcion: '' }) })
-      .catch(e => setError(e.response?.data || e.message))
+      .catch(e => setError(e.response?.data?.error || e.response?.data || e.message))
   }
 
   const cambiarEstado = (id, estado) => {
-    reportesApi.cambiarEstado(id, estado).then(cargar).catch(e => setError(e.message))
+    reportesApi.cambiarEstado(id, estado).then(cargar).catch(e => setError(e.response?.data?.error || e.message))
   }
 
   const eliminar = (id) => {
     if (!window.confirm('¿Eliminar este reporte?')) return
-    reportesApi.eliminar(id).then(cargar).catch(e => setError(e.message))
+    reportesApi.eliminar(id).then(cargar).catch(e => setError(e.response?.data?.error || e.message))
   }
 
   return (

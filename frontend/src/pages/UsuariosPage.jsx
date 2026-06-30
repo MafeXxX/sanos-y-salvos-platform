@@ -11,7 +11,7 @@ function UsuariosPage() {
     setLoading(true)
     usuariosApi.listar()
       .then(r => setUsuarios(r.data))
-      .catch(e => setError(e.message))
+      .catch(e => setError(e.response?.data?.error || e.message))
       .finally(() => setLoading(false))
   }
 
@@ -21,12 +21,12 @@ function UsuariosPage() {
     e.preventDefault()
     usuariosApi.crear(form)
       .then(() => { cargar(); setForm({ nombre: '', email: '', telefono: '', direccion: '' }) })
-      .catch(e => setError(e.response?.data || e.message))
+      .catch(e => setError(e.response?.data?.error || e.response?.data || e.message))
   }
 
   const eliminar = (id) => {
     if (!window.confirm('¿Eliminar este usuario?')) return
-    usuariosApi.eliminar(id).then(cargar).catch(e => setError(e.message))
+    usuariosApi.eliminar(id).then(cargar).catch(e => setError(e.response?.data?.error || e.message))
   }
 
   return (
