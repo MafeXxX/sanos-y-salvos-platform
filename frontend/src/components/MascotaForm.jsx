@@ -9,7 +9,7 @@ function MascotaForm({ onGuardado }) {
     e.preventDefault()
     mascotasApi.crear({ ...form, usuarioId: Number(form.usuarioId), edad: Number(form.edad) })
       .then(onGuardado)
-      .catch(e => setError(e.response?.data || e.message))
+      .catch(e => setError(e.response?.data?.error || e.response?.data || e.message))
   }
 
   return (
